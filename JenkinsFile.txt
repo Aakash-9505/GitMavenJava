@@ -1,0 +1,30 @@
+pipeline {
+    agent any
+    tools{
+        maven 'MAVEN-HOME'
+    }
+    stages {
+        stage('git repo & clean') {
+            steps {
+                //bat "rmdir  /s /q mavenjava"
+                bat "git clone https://github.com/Aakash-9505/GitMavenJava.git"
+                bat "mvn clean -f GitMavenJava"
+            }
+        }
+        stage('install') {
+            steps {
+                bat "mvn install -f GitMavenJava"
+            }
+        }
+        stage('test') {
+            steps {
+                bat "mvn test -f GitMavenJava"
+            }
+        }
+        stage('package') {
+            steps {
+                bat "mvn package -f GitMavenJava"
+            }
+        }
+    }
+}
